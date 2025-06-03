@@ -2,9 +2,9 @@ import HeroSection from './Herosection'
 
 function App() {
   return (
-    <div className="App">
-      <HeroSection />
-    </div>
+    <>
+      <HeroSection/>
+    </>
   )
 }
 
