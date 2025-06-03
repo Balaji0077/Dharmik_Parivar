@@ -1,7 +1,11 @@
 import HeroSection from './Herosection'
 
 function App() {
-  return <HeroSection />
+  return (
+    <div className="App">
+      <HeroSection />
+    </div>
+  )
 }
 
 export default App
