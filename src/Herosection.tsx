@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
+import {useState,useEffect,useRef} from 'react'
 import "slick-carousel/slick/slick.css"; // Import slick CSS
 import "slick-carousel/slick/slick-theme.css"; // Optional slick theme CSS
 import "./index.css";
@@ -25,6 +26,41 @@ const NextArrow: React.FC<any> = ({ onClick }) => (
 );
 
 const HeroSection: React.FC = () => {
+   const images = [
+    "/images/slide1.jpg",
+    "/images/slide2.jpg",
+    "/images/slide3.jpg",
+  ];
+const [currentIndex, setCurrentIndex] = useState(0);
+const timeoutRef:any = useRef(null);
+
+const resetTimeout = () => {
+  if (timeoutRef.current) clearTimeout(timeoutRef.current);
+};
+  useEffect(() => {
+  resetTimeout();
+  timeoutRef.current = setTimeout(() => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
+  }, 3000); // Change slide every 3 seconds
+
+  return () => {
+    resetTimeout();
+  };
+}, [currentIndex, images.length]);
+  
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  // Move to previous slide (with wrap-around)
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+
+  
   const videoSettings = {
     dots: true,
     infinite: true,
@@ -53,8 +89,8 @@ const HeroSection: React.FC = () => {
 
       {/* Hero Section */}
       <div id="product" className="relative overflow-hidden py-20">
-        <div className="max-w-7xl mx-auto px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div className="max-w-7xl mx-auto px-8 lg:px-2 lg:py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-28 items-center">
             {/* Text Content */}
             <div>
               <h1 className="text-6xl font-bold text-gray-900 mb-8">
@@ -74,12 +110,65 @@ const HeroSection: React.FC = () => {
             </div>
 
             {/* Image Grid */}
-            <div className="relative grid grid-cols-2 gap-6">
-              <img src="#" alt="img1" className="rounded-xl shadow-lg" />
+            <div className="relative grid grid-cols-1 gap-3">
+               <div className="w-full max-w-xl mx-auto">
+        {/* Carousel container */}
+      <div className="relative overflow-hidden">
+        {/* Slides */}
+        <div
+          className="flex transition-transform duration-500"
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
+          {images.map((src, index) => (
+            <div key={index} className="min-w-full flex-shrink-0">
+              <img
+                src={src}
+                alt={`Slide ${index + 1}`}
+                className="w-full h-64 object-cover rounded-lg"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Left arrow */}
+        <button
+          onClick={prevSlide}
+          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
+          aria-label="Previous Slide"
+        >
+          &#8592;
+        </button>
+
+        {/* Right arrow */}
+        <button
+          onClick={nextSlide}
+          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
+          aria-label="Next Slide"
+        >
+          &#8594;
+        </button>
+      </div>
+
+      {/* Dotted pagination */}
+      <div className="flex justify-center space-x-3 mt-4">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentIndex(i)}
+            className={`w-4 h-4 rounded-full transition-colors duration-300 ${
+              i === currentIndex ? "bg-blue-600" : "bg-gray-300 hover:bg-blue-400"
+            }`}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
             </div>
           </div>
         </div>
       </div>
+       
+       
 
       {/* Our Services Section */}
       <div id="services" className="bg-white py-20">
