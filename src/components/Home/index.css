@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+.home-container{
+    height:100vh;
+    width:100vw;
+}
+.home-flex-container{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    width:100%;
+    padding:20px;
+}
+.services-container{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    width:50%;
+}
+.about-container{
+     display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    
+}
+.contact-text{
+    margin-right:10px;
+}

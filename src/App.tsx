@@ -1,14 +1,11 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import HeroSection from './Herosection'
 
 function App() {
   
 
   return (
     <>
-      <h1>Welcome To Dharmika Parivar</h1>
+      <HeroSection/>
     </>
   )
 }
