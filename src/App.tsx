@@ -1,4 +1,4 @@
-import HeroSection from './Herosection'
+import HeroSection from './components/Home/Herosection'
 
 function App() {
   return (
