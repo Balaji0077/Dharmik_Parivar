@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import GalleryView from "../GalleryImagesView";
 
 type PicsumImage = {
   id: string;
@@ -9,29 +10,30 @@ const GalleryImages: React.FC = () => {
   const [images, setImages] = useState<PicsumImage[]>([]);
 
   useEffect(() => {
-    fetch('https://picsum.photos/v2/list?page=2&limit=12')
-      .then(res => res.json())
-      .then(data => setImages(data))
-      .catch(err => console.error("Error fetching images:", err));
+    fetch("https://picsum.photos/v2/list?page=2&limit=12")
+      .then((res) => res.json())
+      .then((data) => setImages(data))
+      .catch((err) => console.error("Error fetching images:", err));
   }, []);
 
+  const handleRemove = (id: string) => {
+    setImages((prev) => prev.filter((img) => img.id !== id));
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-5">
-      <h1 className="text-3xl font-bold text-center mb-8">Picsum Gallery</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {images.map(img => (
-          <div key={img.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-            <img
-              src={`https://picsum.photos/id/${img.id}/400/300`}
-              alt={`By ${img.author}`}
-              className="w-full h-60 object-cover"
-            />
-            <div className="p-4">
-              <p className="text-sm text-gray-700 font-medium">By: {img.author}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="min-h-screen bg-gray-100 flex justify-center items-center py-10">
+      {images.length > 0 ? (
+        <GalleryView
+          images={images.map((img) => ({
+            url: `https://picsum.photos/id/${img.id}/400/300`,
+            id: img.id,
+          }))}
+          title="Picsum Gallery"
+          onImageClick={handleRemove}
+        />
+      ) : (
+        <p className="text-gray-600 text-xl">Loading gallery...</p>
+      )}
     </div>
   );
 };
