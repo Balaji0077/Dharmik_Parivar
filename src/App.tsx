@@ -1,9 +1,10 @@
-import HeroSection from './components/Home/Herosection'
-
+// import HeroSection from './components/Home/Herosection'
+import GalleryImages from './components/GalleryImages'
 function App() {
   return (
     <>
-      <HeroSection/>
+      {/* <HeroSection/> */}
+      <GalleryImages/>
     </>
   )
 }
